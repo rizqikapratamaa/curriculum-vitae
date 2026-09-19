@@ -1,0 +1,16 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+*.bbl
+*.blg
+*.xdv
+
+# Local build output
+build/

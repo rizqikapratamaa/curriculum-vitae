@@ -1,0 +1,79 @@
+name: Build CV PDFs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/**'
+      - 'variants/**'
+      - 'template/**'
+      - '.github/workflows/build-pdf.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: build-pdf
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Compile every variant
+        uses: xu-cheng/latex-action@v3
+        with:
+          # Compiling from the repository root keeps \input{content/...} and
+          # \documentclass{template/resume} resolvable.
+          working_directory: .
+          root_file: |
+            variants/full.tex
+            variants/software-engineer.tex
+            variants/ai-ml-engineer.tex
+            variants/data-engineer.tex
+          latexmk_use_xelatex: false
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode -outdir=build
+
+      - name: Rename outputs into pdf/
+        run: |
+          set -euo pipefail
+          mkdir -p pdf
+          rename_to() {
+            src="build/$1.pdf"
+            dest="pdf/Rizqika_Mulia_Pratama_-_$2.pdf"
+            if [ ! -f "$src" ]; then
+              echo "Expected $src to exist but it does not" >&2
+              exit 1
+            fi
+            cp "$src" "$dest"
+            echo "$src -> $dest"
+          }
+          rename_to full Full
+          rename_to software-engineer Software_Engineer
+          rename_to ai-ml-engineer AI_ML_Engineer
+          rename_to data-engineer Data_Engineer
+
+      - name: Upload PDFs as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cv-pdfs
+          path: pdf/*.pdf
+          if-no-files-found: error
+
+      - name: Commit PDFs back to main
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pdf/
+          if git diff --staged --quiet; then
+            echo "No PDF changes to commit."
+            exit 0
+          fi
+          # [skip ci] keeps this commit from retriggering the workflow.
+          git commit -m "chore: rebuild CV PDFs [skip ci]"
+          git push origin HEAD:main

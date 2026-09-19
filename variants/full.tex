@@ -1,0 +1,30 @@
+% Full CV -- every section, generalist framing. Mirrors the original PDF.
+% Compile from the repository root: latexmk -pdf variants/full.tex
+\documentclass{template/resume}
+\cvsetvariant{full}
+
+\begin{document}
+\input{content/header}
+
+\cvsummary{Computer Science student at Institut Teknologi Bandung with a strong focus on Software Engineering and AI/ML. Experienced in building production-level web and mobile applications using Go, Vue, Laravel, and Flutter. Beyond full-stack development, I specialize in designing AI models and automated pipelines specifically for recommendation systems. Actively involved in AI/ML education and research, I have a proven ability to deliver scalable software, lead backend development, and drive the integration of intelligent, data-driven features into real-world products.}
+
+\input{content/education}
+
+\section{Professional Experience}
+\input{content/experience/spedgrow}
+\input{content/experience/oviatech}
+\input{content/experience/magna}
+\input{content/experience/delegasi}
+
+\section{Projects \& Organizational Experience}
+\input{content/projects/ai-lab}
+\input{content/projects/km-itb}
+\input{content/projects/gdoc}
+\input{content/projects/hmif}
+\input{content/projects/arkavidia}
+\input{content/projects/krsri}
+
+\input{content/achievements}
+\input{content/certifications}
+\input{content/skills/skills-full}
+\end{document}
