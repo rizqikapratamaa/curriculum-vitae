@@ -15,7 +15,7 @@ A single-source LaTeX CV: every fact is written once in `content/`, and each fil
 | AI/ML Engineer | [Rizqika_Mulia_Pratama_-_AI_ML_Engineer.pdf](pdf/Rizqika_Mulia_Pratama_-_AI_ML_Engineer.pdf) | Applied ML, LLM/RAG research, MLOps |
 | Data Engineer | [Rizqika_Mulia_Pratama_-_Data_Engineer.pdf](pdf/Rizqika_Mulia_Pratama_-_Data_Engineer.pdf) | ETL, pipelines, data governance |
 
-These links resolve once the first CI run has committed the PDFs to `pdf/`.
+The **Full** PDF includes the current System Engineer role at Institut Teknologi Bandung (WRAM). The links above point directly to the committed PDF artifacts in `pdf/`; CI rebuilds all variants when source files change.
 
 ## Building locally
 
